@@ -17,44 +17,44 @@ import java.util.stream.Collectors;
 
 @Service
 @Configuration
-public class LogLineServiceImpl implements LogLineService{
+public class LogLineServiceImpl implements LogLineService {
     private final LogLineRepository logLineRepository;
     Logger logger = LoggerFactory.getLogger(LogLineServiceImpl.class);
 
     @Value("${api.limit.records.count}")
     int maxRecords;
 
-    public LogLineServiceImpl(LogLineRepository logLineRepository){
-            this.logLineRepository = logLineRepository;
-        }
+    public LogLineServiceImpl(LogLineRepository logLineRepository) {
+        this.logLineRepository = logLineRepository;
+    }
 
-    public void saveAll(List<LogLine> logLineList){
+    public void saveAll(List<LogLine> logLineList) {
         logger.info("Total insert Request received : " + logLineList.size());
         logLineRepository.saveAll(logLineList);
     }
 
-    public List<String> fetchLogs(String user, String method, int code, int pageCount){
-        List<String> result  = new ArrayList<>();
+    public List<String> fetchLogs(String user, String method, int code, int pageCount) {
+        List<String> result = new ArrayList<>();
         List<LogLine> queryResult = null;
-        Pageable page = PageRequest.of(pageCount, maxRecords,Sort.by("logdate").descending());
-        if(user == null && method == null && code == 0  ){
+        Pageable page = PageRequest.of(pageCount, maxRecords, Sort.by("logdate").descending());
+        if (user == null && method == null && code == 0) {
             queryResult = logLineRepository.findAll(page).getContent();
-        }else  if(user != null && method != null && code > 0  ){
-            queryResult = logLineRepository.findByAuserAndAmethodAndCodeOrderByLogdateDesc(user,method,code, page);
-        }else if(user != null && method == null && code == 0 ){
+        } else if (user != null && method != null && code > 0) {
+            queryResult = logLineRepository.findByAuserAndAmethodAndCodeOrderByLogdateDesc(user, method, code, page);
+        } else if (user != null && method == null && code == 0) {
             queryResult = logLineRepository.findByAuserOrderByLogdateDesc(user, page);
-        } else if(user == null && method != null && code == 0){
+        } else if (user == null && method != null && code == 0) {
             queryResult = logLineRepository.findByAmethodOrderByLogdateDesc(method, page);
-        } else if(user == null && method == null && code > 0) {
+        } else if (user == null && method == null && code > 0) {
             queryResult = logLineRepository.findByCodeOrderByLogdateDesc(code, page);
-        } else if(user != null && method != null && code == 0){
-            queryResult = logLineRepository.findByAuserAndAmethodOrderByLogdateDesc(user,method, page);
-        } else if(user != null && method == null && code > 0){
-            queryResult = logLineRepository.findByAuserAndCodeOrderByLogdateDesc(user,code, page);
-        }else if(user == null && method != null && code > 0){
-            queryResult = logLineRepository.findByAmethodAndCodeOrderByLogdateDesc(method,code, page);
+        } else if (user != null && method != null && code == 0) {
+            queryResult = logLineRepository.findByAuserAndAmethodOrderByLogdateDesc(user, method, page);
+        } else if (user != null && method == null && code > 0) {
+            queryResult = logLineRepository.findByAuserAndCodeOrderByLogdateDesc(user, code, page);
+        } else if (user == null && method != null && code > 0) {
+            queryResult = logLineRepository.findByAmethodAndCodeOrderByLogdateDesc(method, code, page);
         }
-        if( queryResult != null ){
+        if (queryResult != null) {
             result = queryResult.stream().map(e -> e.getMessage()).collect(
                     Collectors.toList());
         }

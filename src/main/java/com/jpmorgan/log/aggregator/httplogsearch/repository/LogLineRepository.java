@@ -1,10 +1,10 @@
 package com.jpmorgan.log.aggregator.httplogsearch.repository;
 
 import com.jpmorgan.log.aggregator.httplogsearch.model.LogLine;
-import java.util.List;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface LogLineRepository extends JpaRepository<LogLine, Long> {
     List<LogLine> findByAuserOrderByLogdateDesc(String name, Pageable page);

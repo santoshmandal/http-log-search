@@ -2,6 +2,8 @@
 Go to http-log-search service and run the maven command
 
     mvn clean install 
+    
+    To run locally
     java -jar target/http-log-search*.jar
 
 ## Docker Image Build

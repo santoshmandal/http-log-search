@@ -9,7 +9,7 @@ import java.util.Date;
 
 
 public class ParsedLine {
-    private static SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss Z");
+    private static final SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss Z");
     Logger logger = LoggerFactory.getLogger(ParsedLine.class);
     private String ip;
     private String user;
@@ -22,16 +22,16 @@ public class ParsedLine {
 
     private String logLine;
 
-    public ParsedLine(){
+    public ParsedLine() {
 
     }
 
-    public ParsedLine(String s){
+    public ParsedLine(String s) {
         //103.38.201.7 - aut [26/Jul/2000 03:46:20 +0000] "GET /followers/34 HTTP/1.0" 403 116
         //Regular expression is best option to use this
         this.logLine = s;
         String dateTImeString = "";
-        if( s != null && s.length() > 0 ) {
+        if (s != null && s.length() > 0) {
             int ipAddressIndex = s.indexOf("-");
             if (ipAddressIndex > -1) {
                 this.ip = s.substring(0, ipAddressIndex).trim();
@@ -75,14 +75,14 @@ public class ParsedLine {
                             if (lastSub.length > 0) {
                                 try {
                                     this.code = Integer.parseInt(lastSub[0]);
-                                }catch(Exception e){
+                                } catch (Exception e) {
                                     logger.error(e.toString());
                                 }
                             }
                             if (lastSub.length > 1) {
                                 try {
                                     this.dataSize = Integer.parseInt(lastSub[1]);
-                                }catch(Exception e){
+                                } catch (Exception e) {
                                     logger.error(e.toString());
                                 }
                             }
@@ -96,7 +96,7 @@ public class ParsedLine {
     @Override
     public String toString() {
         return "{" +
-                "logLine:"+this.logLine + "\n"+
+                "logLine:" + this.logLine + "\n" +
                 "ip:" + this.ip + ", " +
                 "user:" + this.user + ", " +
                 "dateTime:" + this.dateTIme + ", " +

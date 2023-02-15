@@ -1,17 +1,11 @@
 package com.jpmorgan.log.aggregator.httplogsearch.model;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table(name="LOGLINE")
+@Table(name = "LOGLINE")
 public class LogLine {
 
     @Id
@@ -78,6 +72,10 @@ public class LogLine {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public int getId() {
         return id;
     }
@@ -91,10 +89,6 @@ public class LogLine {
                 ", code='" + code + '\'' +
                 ", message='" + message + '\'' +
                 '}';
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     public String getMessage() {
